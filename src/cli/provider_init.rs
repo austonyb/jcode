@@ -112,6 +112,14 @@ pub enum ProviderChoice {
     /// Muse installation is required.
     #[value(name = "muse-subscription", alias = "muse-sub")]
     MuseSubscription,
+    #[value(
+        name = "vercel-ai-gateway",
+        alias = "vercel",
+        alias = "ai-gateway",
+        alias = "token-pass",
+        alias = "vercel-token-pass"
+    )]
+    VercelAiGateway,
     #[value(alias = "celeris-ai", alias = "celeris1", alias = "celeris-1")]
     Celeris,
     #[value(alias = "venice-ai", alias = "veniceai", alias = "venice.ai")]
@@ -194,6 +202,7 @@ impl ProviderChoice {
             Self::XiaomiMimo => "xiaomi-mimo",
             Self::MetaMuse => "meta-muse",
             Self::MuseSubscription => "muse-subscription",
+            Self::VercelAiGateway => "vercel-ai-gateway",
             Self::Celeris => "celeris",
             Self::Venice => "venice",
             Self::YoloAuto => "yolo-auto",
@@ -373,6 +382,10 @@ const PROVIDER_CHOICE_LOGIN_PROVIDERS: &[(ProviderChoice, LoginProviderDescripto
     (
         ProviderChoice::MuseSubscription,
         crate::provider_catalog::MUSE_SUBSCRIPTION_LOGIN_PROVIDER,
+    ),
+    (
+        ProviderChoice::VercelAiGateway,
+        crate::provider_catalog::VERCEL_AI_GATEWAY_LOGIN_PROVIDER,
     ),
     (
         ProviderChoice::Celeris,
@@ -1688,6 +1701,7 @@ async fn init_provider_with_model_policy(
         | ProviderChoice::NvidiaNim
         | ProviderChoice::XiaomiMimo
         | ProviderChoice::MetaMuse
+        | ProviderChoice::VercelAiGateway
         | ProviderChoice::Celeris
         | ProviderChoice::Venice
         | ProviderChoice::YoloAuto

@@ -589,6 +589,15 @@ pub fn openai_compatible_profile_static_models(profile: OpenAiCompatibleProfile)
         "belvedir" => push("auto"),
         // Celeris serves exactly one model per base URL today, and `/models`
         // requires auth, so keep the documented id available pre-refresh.
+        // Vercel Token Pass featured models, kept selectable before the
+        // gateway's live `/models` catalog refreshes.
+        "vercel-ai-gateway" => {
+            push("moonshotai/kimi-k3");
+            push("moonshotai/kimi-k3.1-pro");
+            push("zai/glm-5.3");
+            push("zai/glm-5.3-flash");
+            push("deepseek/deepseek-v4.1-flash");
+        }
         "celeris" => {
             push("celeris-1");
         }

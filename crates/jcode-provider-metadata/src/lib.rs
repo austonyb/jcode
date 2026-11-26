@@ -726,6 +726,10 @@ mod tests {
             Some("togetherai")
         );
         assert_eq!(
+            resolve_login_provider("token-pass").map(|provider| provider.id),
+            Some("vercel-ai-gateway")
+        );
+        assert_eq!(
             resolve_login_provider("deep-infra").map(|provider| provider.id),
             Some("deepinfra")
         );

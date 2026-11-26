@@ -467,6 +467,20 @@ pub const CELERIS_PROFILE: OpenAiCompatibleProfile = OpenAiCompatibleProfile {
     requires_api_key: true,
 };
 
+/// Vercel AI Gateway. Vercel Token Pass is billed through the gateway: any
+/// gateway credential (standard key, Token Pass-scoped key, or OIDC token)
+/// routes featured open-weight models to the Token Pass provider automatically.
+pub const VERCEL_AI_GATEWAY_PROFILE: OpenAiCompatibleProfile = OpenAiCompatibleProfile {
+    id: "vercel-ai-gateway",
+    display_name: "Vercel AI Gateway",
+    api_base: "https://ai-gateway.vercel.sh/v1",
+    api_key_env: "AI_GATEWAY_API_KEY",
+    env_file: "vercel-ai-gateway.env",
+    setup_url: "https://vercel.com/docs/ai-gateway/token-pass",
+    default_model: Some("moonshotai/kimi-k3"),
+    requires_api_key: true,
+};
+
 pub const VENICE_PROFILE: OpenAiCompatibleProfile = OpenAiCompatibleProfile {
     id: "venice",
     display_name: "Venice AI",
@@ -505,7 +519,7 @@ pub const OPENAI_COMPAT_PROFILE: OpenAiCompatibleProfile = OpenAiCompatibleProfi
     requires_api_key: true,
 };
 
-pub(crate) const OPENAI_COMPAT_PROFILES: [OpenAiCompatibleProfile; 45] = [
+pub(crate) const OPENAI_COMPAT_PROFILES: [OpenAiCompatibleProfile; 46] = [
     OPENCODE_PROFILE,
     OPENCODE_GO_PROFILE,
     ZAI_PROFILE,
@@ -546,6 +560,7 @@ pub(crate) const OPENAI_COMPAT_PROFILES: [OpenAiCompatibleProfile; 45] = [
     META_MUSE_PROFILE,
     MUSE_SUBSCRIPTION_PROFILE,
     CELERIS_PROFILE,
+    VERCEL_AI_GATEWAY_PROFILE,
     VENICE_PROFILE,
     YOLO_AUTO_PROFILE,
     LMSTUDIO_PROFILE,
@@ -1237,6 +1252,19 @@ pub const XIAOMI_MIMO_LOGIN_PROVIDER: LoginProviderDescriptor = LoginProviderDes
     order: LoginProviderSurfaceOrder::new(Some(37), Some(37), Some(37), Some(37), Some(37)),
 };
 
+pub const VERCEL_AI_GATEWAY_LOGIN_PROVIDER: LoginProviderDescriptor = LoginProviderDescriptor {
+    id: "vercel-ai-gateway",
+    display_name: "Vercel AI Gateway",
+    auth_kind: LoginProviderAuthKind::ApiKey,
+    auth_state_key: LoginProviderAuthStateKey::OpenRouterLike,
+    auth_status_method: "API key",
+    aliases: &["vercel", "ai-gateway", "token-pass", "vercel-token-pass"],
+    menu_detail: "API key (Token Pass supported)",
+    recommended: false,
+    target: LoginProviderTarget::OpenAiCompatible(VERCEL_AI_GATEWAY_PROFILE),
+    order: LoginProviderSurfaceOrder::new(Some(38), Some(38), Some(38), Some(38), Some(38)),
+};
+
 pub const CELERIS_LOGIN_PROVIDER: LoginProviderDescriptor = LoginProviderDescriptor {
     id: "celeris",
     display_name: "Celeris",
@@ -1289,7 +1317,7 @@ pub const GOOGLE_LOGIN_PROVIDER: LoginProviderDescriptor = LoginProviderDescript
     order: LoginProviderSurfaceOrder::new(Some(13), None, None, None, None),
 };
 
-pub(crate) const LOGIN_PROVIDERS: [LoginProviderDescriptor; 57] = [
+pub(crate) const LOGIN_PROVIDERS: [LoginProviderDescriptor; 58] = [
     AUTO_IMPORT_LOGIN_PROVIDER,
     CLAUDE_LOGIN_PROVIDER,
     ANTHROPIC_API_LOGIN_PROVIDER,
@@ -1336,6 +1364,7 @@ pub(crate) const LOGIN_PROVIDERS: [LoginProviderDescriptor; 57] = [
     META_MUSE_LOGIN_PROVIDER,
     MUSE_SUBSCRIPTION_LOGIN_PROVIDER,
     CELERIS_LOGIN_PROVIDER,
+    VERCEL_AI_GATEWAY_LOGIN_PROVIDER,
     VENICE_LOGIN_PROVIDER,
     YOLO_AUTO_LOGIN_PROVIDER,
     LMSTUDIO_LOGIN_PROVIDER,
