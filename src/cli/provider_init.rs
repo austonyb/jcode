@@ -155,6 +155,10 @@ pub enum ProviderChoice {
     )]
     GeminiApi,
     Antigravity,
+    /// Google Antigravity CLI driven over ACP (`agy acp`). Every prompt goes
+    /// through the official CLI, never directly to Google's APIs.
+    #[value(name = "antigravity-cli", alias = "agy", alias = "antigravity-acp")]
+    AntigravityCli,
     Google,
     Auto,
 }
@@ -219,6 +223,7 @@ impl ProviderChoice {
             Self::Gemini => "gemini",
             Self::GeminiApi => "gemini-api",
             Self::Antigravity => "antigravity",
+            Self::AntigravityCli => "antigravity-cli",
             Self::Google => "google",
             Self::Auto => "auto",
         }
@@ -1724,6 +1729,18 @@ async fn init_provider_with_model_policy(
             clear_initial_model_provider();
             crate::env::set_var("JCODE_ACTIVE_PROVIDER", "antigravity");
             Arc::new(jcode_provider_antigravity_runtime::AntigravityProvider::new())
+        }
+        ProviderChoice::AntigravityCli => {
+            disable_subscription_runtime_mode();
+            if !jcode_provider_antigravity_acp_runtime::cli_available() {
+                anyhow::bail!(
+                    "Antigravity CLI (`agy`) not found on PATH. Install it or set JCODE_ANTIGRAVITY_CLI"
+                );
+            }
+            init_notice("Using Antigravity CLI over ACP (agy acp, official Google client)");
+            clear_initial_model_provider();
+            crate::env::set_var("JCODE_ACTIVE_PROVIDER", "antigravity-cli");
+            Arc::new(jcode_provider_antigravity_acp_runtime::AntigravityCliProvider::new())
         }
         ProviderChoice::Google => {
             disable_subscription_runtime_mode();
